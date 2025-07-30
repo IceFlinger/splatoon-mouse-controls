@@ -8,7 +8,7 @@ clock = pygame.time.Clock()
 running = True
 
 mouse_sens_x = 80
-mouse_sens_y = 160
+mouse_sens_y = 80
 #"BC:9E:BB:F8:71:8C"
 switch_addr = ""
 
@@ -60,10 +60,20 @@ while running:
         packet['L_STICK']['PRESSED'] = True
     
     if pygame.key.get_pressed()[pygame.K_1]:
-        packet['DPAD_DOWN'] = True
+        packet['DPAD_LEFT'] = True
+        packet['A'] = True
 
     if pygame.key.get_pressed()[pygame.K_2]:
         packet['DPAD_UP'] = True
+        packet['A'] = True
+
+    if pygame.key.get_pressed()[pygame.K_3]:
+        packet['DPAD_RIGHT'] = True
+        packet['A'] = True
+
+    if pygame.key.get_pressed()[pygame.K_4]:
+        packet['DPAD_DOWN'] = True
+        packet['A'] = True
 
     if pygame.key.get_pressed()[pygame.K_TAB]:
         packet['L'] = True
@@ -95,6 +105,9 @@ while running:
     if pygame.key.get_pressed()[pygame.K_r]:
         packet['MINUS'] = True
 
+    if pygame.key.get_pressed()[pygame.K_t]:
+        packet['PLUS'] = True
+
     screen.fill("purple")
 
 
@@ -106,12 +119,12 @@ while running:
     val_yaw = (0-(dx*mouse_sens_x))%0xFFFF
 
     #vaguely scale the y position of the cursor with the accepted acc values of the IMU
-    val_acc = (-(math.floor((-600+ny)*(2.7))))-jitter
+    val_acc = (-(math.floor((-600+ny)*(2))))-jitter
     if jitter != -3:
         jitter = -3
     else:
         jitter = 3
-
+    print(ny)
     # Forward-Back axis accelerometer
     packet['IMU_DATA'][0+((framecount%3)*12)] = val_acc & 0xFF
     packet['IMU_DATA'][1+((framecount%3)*12)] = (val_acc >> 8) & 0xFF
