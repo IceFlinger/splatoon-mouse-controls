@@ -1,0 +1,7 @@
+[project]
+name = "splatoon-mouse-controls"
+version = "0.1.0"
+description = "splatoon mouse"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = ['pygame', 'dbus-python']
